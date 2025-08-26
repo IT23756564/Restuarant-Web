@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced Hotel Management | Login</title>
+  <meta name="description" content="Advanced Hotel Management System - User & Admin Login with Sign Up" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Advanced Hotel Management - Auth Frontend */
+    :root{
+      --bg:#0b1020;
+      --bg2:#0f1530;
+      --card:rgba(255,255,255,0.08);
+      --text:#e7e9ee;
+      --muted:#a9b0c1;
+      --brand:#6ea8fe;
+      --brand2:#8a9bff;
+      --danger:#ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, #1a2250 0%, transparent 70%),
+        radial-gradient(900px 500px at 90% 20%, #1b2a6b 0%, transparent 70%),
+        linear-gradient(120deg, var(--bg) 0%, var(--bg2) 70%);
+    }
+
+    .wrapper{min-height:100%; display:flex; flex-direction:column; align-items:center; padding:32px}
+    .hero{display:flex; width:100%; max-width:1080px; align-items:center; justify-content:space-between; margin-bottom:24px}
+    .brand{display:flex; align-items:center; gap:14px}
+    .logo{width:44px; height:44px}
+    .title{margin:0; font-weight:800; letter-spacing:.4px}
+    .subtitle{margin:0; color:var(--muted); font-weight:500; font-size:.95rem}
+
+    .theme-toggle{
+      border:1px solid rgba(255,255,255,.15);
+      background:transparent;
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:14px;
+      cursor:pointer;
+      backdrop-filter: blur(6px);
+      transition: transform .2s ease;
+    }
+    .theme-toggle:hover{ transform: translateY(-1px) }
+
+    .card{
+      width:100%;
+      max-width:1080px;
+      border-radius:24px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .glass{
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .tabs{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: rgba(0,0,0,.2);
+    }
+    .tab{
+      appearance:none; border:0; background:transparent; color:var(--muted); padding:18px;
+      font-weight:600; letter-spacing:.3px; cursor:pointer; transition:all .2s ease;
+    }
+    .tab.active{ color:var(--text); background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0)); }
+
+    .panel{ display:none; padding:28px; }
+    .panel.active{ display:block; animation: fadeIn .25s ease }
+    @keyframes fadeIn{ from{opacity:0; transform: translateY(6px)} to{opacity:1; transform:none} }
+
+    .form{ display:flex; flex-direction:column; gap:16px }
+    .field{ display:flex; flex-direction:column; gap:8px }
+    .field label{ font-weight:600 }
+    .field input{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.18);
+      outline:none; color:var(--text);
+      padding:14px 14px; border-radius:14px;
+    }
+    .field input:focus{ border-color: var(--brand) ; box-shadow: 0 0 0 3px rgba(110,168,254,.25) }
+    .hint{ color:var(--muted); font-size:.85rem }
+    .error{ color:var(--danger); min-height:1.1rem; font-size:.85rem }
+
+    .password-field{ position:relative; display:flex; align-items:center }
+    .password-field .eye{
+      position:absolute; right:8px; top:50%; transform: translateY(-50%);
+      border:0; background:transparent; cursor:pointer; font-size:1rem; color:var(--muted);
+    }
+
+    .row{ display:flex; gap:10px; align-items:center }
+    .between{ justify-content:space-between }
+
+    .check{ display:flex; align-items:center; gap:8px; color:var(--muted); font-weight:500 }
+
+    .btn{
+      appearance:none; border:0; padding:14px 18px; border-radius:14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color:#0a0f20; font-weight:800; letter-spacing:.4px; cursor:pointer;
+      box-shadow: 0 10px 20px rgba(110,168,254,.3);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 12px 24px rgba(110,168,254,.35) }
+    .btn:active{ transform: translateY(0) }
+
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px }
+
+    .link{ color:var(--brand); text-decoration:none }
+    .link:hover{ text-decoration:underline }
+
+    .footer{ margin-top:20px; color:var(--muted) ; font-weight:500 }
+
+    .toast{
+      position: fixed; bottom: 18px; right: 18px; padding: 14px 16px; border-radius: 12px;
+      background: rgba(0,0,0,.75); color: #fff; box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 720px){
+      .grid{ grid-template-columns: 1fr }
+      .tabs{ grid-template-columns: 1fr 1fr 1fr }
+      .hero{ flex-direction:column; align-items:flex-start; gap:12px }
+    }
+
+    /* Light mode */
+    .light{
+      --bg:#f6f7fb;
+      --bg2:#eef1f8;
+      --card:rgba(255,255,255,0.85);
+      --text:#121629;
+      --muted:#5a6072;
+      --brand:#3b82f6;
+      --brand2:#6366f1;
+      --danger:#e11d48;
+    }
+    .light body{ color: var(--text) }
+  </style>
+</head>
+<body>
+  <main class="wrapper" aria-label="Advanced Hotel Management System Login">
+    <section class="hero">
+      <div class="brand">
+        <svg class="logo" width="44" height="44" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6ea8fe"/>
+              <stop offset="100%" stop-color="#8a9bff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="55" stroke="url(#g)" stroke-width="6" fill="rgba(255,255,255,0.06)"/>
+          <path d="M25 78 C 38 58, 82 58, 95 78" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
+          <rect x="40" y="45" width="40" height="28" rx="6" stroke="url(#g)" stroke-width="6"/>
+          <circle cx="60" cy="38" r="8" fill="url(#g)"/>
+        </svg>
+        <div class="brand-text">
+          <h1 class="title">Asteria Hotels</h1>
+          <p class="subtitle">Management Console</p>
+        </div>
+      </div>
+
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="icon">☾</span>
+      </button>
+    </section>
+
+    <section class="card glass" role="region" aria-label="Authentication panel">
+      <nav class="tabs" role="tablist" aria-label="Auth tabs">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="userPanel" id="userTab">User Login</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="adminPanel" id="adminTab">Admin Login</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="signupPanel" id="signupTab">Sign Up</button>
+      </nav>
+
+      <!-- User Login -->
+      <div id="userPanel" class="panel active" role="tabpanel" aria-labelledby="userTab">
+        <form id="userLoginForm" class="form" novalidate>
+          <div class="field">
+            <label for="userEmail">Email</label>
+            <input id="userEmail" name="email" type="email" placeholder="you@example.com" autocomplete="username" required />
+            <small class="error" data-for="userEmail"></small>
+          </div>
+          <div class="field">
+            <label for="userPassword">Password</label>
+            <div class="password-field">
+              <input id="userPassword" name="password" type="password" placeholder="••••••••" autocomplete="current-password" minlength="6" required />
+              <button class="eye" type="button" aria-label="Show password" data-toggle="userPassword">👁</button>
+            </div>
+            <small class="error" data-for="userPassword"></small>
+          </div>
+
+          <div class="row between">
+            <label class="check">
+              <input type="checkbox" id="userRemember" /> Remember me
+            </label>
+            <a href="#" class="link" role="button" aria-label="Forgot your password?">Forgot password?</a>
+          </div>
+
+          <button class="btn primary" type="submit">Login</button>
+        </form>
+      </div>
+
+      <!-- Admin Login -->
+      <div id="adminPanel" class="panel" role="tabpanel" aria-labelledby="adminTab">
+        <form id="adminLoginForm" class="form" novalidate>
+          <div class="field">
+            <label for="adminId">Admin ID</label>
+            <input id="adminId" name="adminId" type="text" placeholder="ADM-0001" pattern="^[A-Za-z]{3}-\d{4}$" required />
+            <small class="hint">Format: ABC-1234</small>
+            <small class="error" data-for="adminId"></small>
+          </div>
+          <div class="field">
+            <label for="adminPassword">Password</label>
+            <div class="password-field">
+              <input id="adminPassword" name="password" type="password" placeholder="••••••••" autocomplete="current-password" minlength="8" required />
+              <button class="eye" type="button" aria-label="Show password" data-toggle="adminPassword">👁</button>
+            </div>
+            <small class="error" data-for="adminPassword"></small>
+          </div>
+
+          <div class="row between">
+            <label class="check">
+              <input type="checkbox" id="adminRemember" /> Remember on this device
+            </label>
+            <a href="#" class="link" role="button">Need help?</a>
+          </div>
+
+          <button class="btn primary" type="submit">Login</button>
+        </form>
+      </div>
+
+      <!-- Sign Up -->
+      <div id="signupPanel" class="panel" role="tabpanel" aria-labelledby="signupTab">
+        <form id="signupForm" class="form" novalidate>
+          <div class="grid">
+            <div class="field">
+              <label for="firstName">First Name</label>
+              <input id="firstName" name="firstName" type="text" placeholder="John" required />
+              <small class="error" data-for="firstName"></small>
+            </div>
+            <div class="field">
+              <label for="lastName">Last Name</label>
+              <input id="lastName" name="lastName" type="text" placeholder="Doe" required />
+              <small class="error" data-for="lastName"></small>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="signupEmail">Email</label>
+            <input id="signupEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+            <small class="error" data-for="signupEmail"></small>
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" placeholder="+94 71 234 5678" pattern="^[+]?\d[\d\s-]{7,}$" required />
+            <small class="error" data-for="phone"></small>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="signupPassword">Password</label>
+              <div class="password-field">
+                <input id="signupPassword" name="password" type="password" placeholder="At least 8 characters" minlength="8" required />
+                <button class="eye" type="button" aria-label="Show password" data-toggle="signupPassword">👁</button>
+              </div>
+              <small class="error" data-for="signupPassword"></small>
+            </div>
+            <div class="field">
+              <label for="confirmPassword">Confirm Password</label>
+              <div class="password-field">
+                <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Re-enter password" minlength="8" required />
+                <button class="eye" type="button" aria-label="Show password" data-toggle="confirmPassword">👁</button>
+              </div>
+              <small class="error" data-for="confirmPassword"></small>
+            </div>
+          </div>
+
+          <div class="row between">
+            <label class="check">
+              <input type="checkbox" id="terms" required /> I agree to the Terms & Privacy
+            </label>
+          </div>
+
+          <button class="btn primary" type="submit">Create account</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Asteria Hotels. All rights reserved.</p>
+    </footer>
+
+    <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
+  </main>
+
+  <script>
+    // Advanced Hotel Management - Auth Frontend JS
+    const $ = (sel, ctx=document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+
+    const userTab = $('#userTab'), adminTab = $('#adminTab'), signupTab = $('#signupTab');
+    const panels = { userPanel: $('#userPanel'), adminPanel: $('#adminPanel'), signupPanel: $('#signupPanel') };
+    const toast = $('#toast');
+    const year = $('#year'); year.textContent = new Date().getFullYear();
+
+    // Tabs
+    [$('#userTab'), $('#adminTab'), $('#signupTab')].forEach(btn => {
+      btn.addEventListener('click', () => {
+        // update active tab
+        $$('.tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        // update panels
+        Object.values(panels).forEach(p => p.classList.remove('active'));
+        const panel = $('#' + btn.id.replace('Tab', 'Panel'));
+        panel.classList.add('active');
+        // focus first input
+        const firstInput = panel.querySelector('input'); if(firstInput) firstInput.focus();
+      });
+    });
+
+    // Show/Hide passwords
+    $$('.eye').forEach(b => {
+      b.addEventListener('click', () => {
+        const target = document.getElementById(b.dataset.toggle);
+        if(!target) return;
+        target.type = target.type === 'password' ? 'text' : 'password';
+        b.setAttribute('aria-label', target.type === 'password' ? 'Show password' : 'Hide password');
+      });
+    });
+
+    // Theme toggle (persist in localStorage)
+    const themeToggle = $('#themeToggle');
+    const applyTheme = (mode) => {
+      document.documentElement.classList.toggle('light', mode === 'light');
+      localStorage.setItem('theme', mode);
+      themeToggle.querySelector('.icon').textContent = mode === 'light' ? '☀' : '☾';
+    };
+    applyTheme(localStorage.getItem('theme') || 'dark');
+    themeToggle.addEventListener('click', () => {
+      const next = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+      applyTheme(next);
+    });
+
+    // Helpers
+    function showToast(message){
+      toast.textContent = message;
+      toast.hidden = false;
+      setTimeout(() => toast.hidden = true, 2500);
+    }
+
+    function setError(input, message=''){
+      const small = document.querySelector(`small.error[data-for="${input.id}"]`);
+      if(small){ small.textContent = message; }
+      input.setAttribute('aria-invalid', message ? 'true' : 'false');
+    }
+
+    // Basic validators
+    function validateEmail(val){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val); }
+    function validatePhone(val){ return /^[+]?\d[\d\s-]{7,}$/.test(val); }
+
+    // User Login submit
+    $('#userLoginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = $('#userEmail');
+      const pass = $('#userPassword');
+      let ok = true;
+
+      if(!validateEmail(email.value)) { setError(email, 'Enter a valid email'); ok = false; } else setError(email);
+      if(pass.value.length < 6) { setError(pass, 'Min 6 characters'); ok = false; } else setError(pass);
+
+      if(!ok) return;
+      // Simulate API
+      showToast('User login successful (demo)');
+    });
+
+    // Admin Login submit
+    $('#adminLoginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = $('#adminId');
+      const pass = $('#adminPassword');
+      let ok = true;
+
+      if(!/^[A-Za-z]{3}-\d{4}$/.test(id.value)) { setError(id, 'Use ABC-1234 format'); ok = false; } else setError(id);
+      if(pass.value.length < 8) { setError(pass, 'Min 8 characters'); ok = false; } else setError(pass);
+
+      if(!ok) return;
+      showToast('Admin login successful (demo)');
+    });
+
+    // Sign Up submit
+    $('#signupForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const first = $('#firstName'), last = $('#lastName');
+      const email = $('#signupEmail'), phone = $('#phone');
+      const pass = $('#signupPassword'), confirm = $('#confirmPassword');
+      const terms = $('#terms');
+
+      let ok = true;
+      if(first.value.trim().length < 2){ setError(first, 'Enter your first name'); ok = false; } else setError(first);
+      if(last.value.trim().length < 2){ setError(last, 'Enter your last name'); ok = false; } else setError(last);
+      if(!validateEmail(email.value)){ setError(email, 'Enter a valid email'); ok = false; } else setError(email);
+      if(!validatePhone(phone.value)){ setError(phone, 'Enter a valid phone'); ok = false; } else setError(phone);
+      if(pass.value.length < 8){ setError(pass, 'At least 8 characters'); ok = false; } else setError(pass);
+      if(confirm.value !== pass.value){ setError(confirm, 'Passwords do not match'); ok = false; } else setError(confirm);
+      if(!terms.checked){ showToast('Please agree to the Terms & Privacy'); ok = false; }
+
+      if(!ok) return;
+      showToast('Account created (demo). You can now log in.');
+    });
+
+    // Accessibility: Enter key on tabs
+    $$('.tab').forEach(tab => {
+      tab.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); tab.click(); }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luxury Event Inquiries</title>
+  <style>
+    :root{
+      --bg:#0b0f1a;
+      --card:#151826;
+      --muted:#9a9fb7;
+      --text:#f5f6fb;
+      --accent:#a57bff;
+      --accent-2:#ffb347;
+      --outline:#2d3148;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    header{
+      text-align:center;
+      padding:80px 20px;
+      background: 
+        linear-gradient(180deg, rgba(11,15,26,.8), rgba(11,15,26,.95)),
+        url('https://images.unsplash.com/photo-1529634899790-45f815f7c4c1?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      color:white;
+    }
+    header h1{
+      font-size:clamp(28px, 5vw, 46px);
+      margin:0;
+      font-weight:700;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    header p{
+      font-size:16px;
+      margin-top:12px;
+      color:#ddd;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:24px;
+    }
+    @media(max-width:900px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media(max-width:600px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), transparent 70%), var(--card);
+      border:1px solid var(--outline);
+      border-radius:20px;
+      padding:24px;
+      box-shadow:0 10px 30px rgba(0,0,0,.3);
+      transition:.25s ease;
+    }
+    .card:hover{ transform:translateY(-4px); border-color:var(--accent); }
+    .card h2{
+      font-size:20px;
+      margin:0 0 14px;
+      border-bottom:1px solid var(--outline);
+      padding-bottom:8px;
+    }
+    .options{ display:grid; gap:12px; }
+    .check{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 14px;
+      border:1px solid var(--outline);
+      border-radius:12px;
+      cursor:pointer;
+      transition:.2s ease;
+      background:rgba(255,255,255,.01);
+    }
+    .check:hover{ border-color:var(--accent); background:rgba(165,123,255,.05); }
+    .check input{
+      appearance:none; -webkit-appearance:none;
+      width:22px;height:22px;
+      border:2px solid #4b527a;
+      border-radius:6px;
+      background:#0e1224;
+      display:grid;place-items:center;
+      margin:0;
+      transition:.2s ease;
+    }
+    .check input::after{
+      content:"";width:12px;height:12px;
+      transform:scale(0);
+      transition:.2s ease;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M20.285 6.709a1 1 0 0 1 0 1.414l-9.9 9.9a1 1 0 0 1-1.414 0l-5.657-5.657a1 1 0 1 1 1.414-1.414L9.68 15.2l9.193-9.192a1 1 0 0 1 1.414 0Z"/></svg>') center/contain no-repeat;
+              mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M20.285 6.709a1 1 0 0 1 0 1.414l-9.9 9.9a1 1 0 0 1-1.414 0l-5.657-5.657a1 1 0 1 1 1.414-1.414L9.68 15.2l9.193-9.192a1 1 0 0 1 1.414 0Z"/></svg>') center/contain no-repeat;
+    }
+    .check input:checked{ border-color:transparent; background:#1a1f34; }
+    .check input:checked::after{ transform:scale(1); }
+    .label-txt{ font-size:15px; }
+    .actions{
+      text-align:center;margin-top:30px;
+    }
+    .btn{
+      border:none;
+      background:linear-gradient(90deg, var(--accent), var(--accent-2));
+      color:white;
+      padding:14px 28px;
+      border-radius:14px;
+      font-weight:600;
+      cursor:pointer;
+      letter-spacing:.4px;
+      font-size:15px;
+      box-shadow:0 8px 18px rgba(165,123,255,.3);
+      transition:.25s ease;
+    }
+    .btn:hover{ transform:translateY(-2px); }
+    .output{
+      margin-top:30px;
+      padding:18px;
+      border-radius:14px;
+      background:#101428;
+      border:1px dashed var(--outline);
+      font-family:monospace;
+      color:#c8cbe0;
+      min-height:70px;
+      white-space:pre-wrap;
+    }
+    footer{
+      margin-top:40px;
+      padding:20px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Plan Your Luxury Event</h1>
+    <p>Select your preferences for liquor, decorations, and music. Build your dream celebration.</p>
+  </header>
+
+  <div class="wrap">
+    <form id="inquiryForm">
+      <div class="grid">
+        <!-- Liquor -->
+        <div class="card">
+          <h2>🍷 Liquor</h2>
+          <div class="options">
+            <label class="check"><input type="checkbox" name="Liquor" value="White wine"><span class="label-txt">White wine</span></label>
+            <label class="check"><input type="checkbox" name="Liquor" value="Red wine"><span class="label-txt">Red wine</span></label>
+            <label class="check"><input type="checkbox" name="Liquor" value="Champagne"><span class="label-txt">Champagne</span></label>
+            <label class="check"><input type="checkbox" name="Liquor" value="Whiskey"><span class="label-txt">Whiskey</span></label>
+            <label class="check"><input type="checkbox" name="Liquor" value="Beer"><span class="label-txt">Beer</span></label>
+          </div>
+        </div>
+
+        <!-- Decorations -->
+        <div class="card">
+          <h2>🎀 Decorations</h2>
+          <div class="options">
+            <label class="check"><input type="checkbox" name="Decorations" value="Crapes"><span class="label-txt">Crapes</span></label>
+            <label class="check"><input type="checkbox" name="Decorations" value="Balloons"><span class="label-txt">Balloons</span></label>
+            <label class="check"><input type="checkbox" name="Decorations" value="Fairy lights"><span class="label-txt">Fairy lights</span></label>
+            <label class="check"><input type="checkbox" name="Decorations" value="Photo booth"><span class="label-txt">Photo booth</span></label>
+            <label class="check"><input type="checkbox" name="Decorations" value="Draped fabric"><span class="label-txt">Draped fabric</span></label>
+          </div>
+        </div>
+
+        <!-- Music -->
+        <div class="card">
+          <h2>🎶 Music</h2>
+          <div class="options">
+            <label class="check"><input type="checkbox" name="Music" value="Acoustic"><span class="label-txt">Acoustic</span></label>
+            <label class="check"><input type="checkbox" name="Music" value="Jazz"><span class="label-txt">Jazz</span></label>
+            <label class="check"><input type="checkbox" name="Music" value="DJ"><span class="label-txt">DJ</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn" id="copyBtn">📋 Copy My Selection</button>
+      </div>
+    </form>
+
+    <div class="output" id="output"></div>
+  </div>
+
+  <footer>
+    © 2025 Luxury Event Planner — Crafted with elegance & style ✨
+  </footer>
+
+  <script>
+    const form = document.getElementById('inquiryForm');
+    const output = document.getElementById('output');
+    const copyBtn = document.getElementById('copyBtn');
+
+    function collectSelections(){
+      const data = new FormData(form);
+      const groups = {};
+      for (const [key, value] of data.entries()){
+        if(!groups[key]) groups[key] = [];
+        groups[key].push(value);
+      }
+      const text = Object.keys(groups).length
+        ? Object.entries(groups).map(([k, arr]) => k + ": " + arr.join(", ")).join("\n")
+        : "No selections yet.";
+      output.textContent = text;
+      return text;
+    }
+
+    form.addEventListener('change', collectSelections);
+    copyBtn.addEventListener('click', async () => {
+      const text = collectSelections();
+      try{
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "✔ Copied!";
+        setTimeout(()=> copyBtn.textContent = "📋 Copy My Selection", 1500);
+      }catch(e){
+        alert("Copied list:\n\n" + text);
+      }
+    });
+
+    collectSelections();
+  </script>
+</body>
+</html>

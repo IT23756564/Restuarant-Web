@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu Management</title>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Menu Management</h1>
+    <p class="subtitle">Select a category to view and manage menu items with transparent pricing.</p>
+  </header>
+
+  <nav class="pillbar" role="tablist" aria-label="Menu categories">
+    <button class="pill active" data-filter="all">All</button>
+    <button class="pill" data-filter="starters">Starters</button>
+    <button class="pill" data-filter="mains">Mains</button>
+    <button class="pill" data-filter="desserts">Desserts</button>
+    <button class="pill" data-filter="beverages">Beverages</button>
+    <div class="pipe"></div>
+    <div class="searchwrap">
+      <input id="search" type="search" placeholder="Search items..." aria-label="Search menu items"/>
+    </div>
+    
+  </nav>
+
+  <main class="grid">
+    <!-- Starters -->
+    <article class="card starters">
+    <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Tomato Bruschetta.webp">
+      <div class="card-body">
+        <h3>Tomato Bruschetta</h3>
+        <p class="meta">Serves 1 • Veg</p>
+        <ul class="bullets">
+          <li>Grilled baguette • garlic rub</li>
+          <li>Cherry tomato & basil</li>
+          <li>Olive oil drizzle</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 1,200</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card starters">
+     <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Roasted Pumpkin Soup.jpg">
+      <div class="card-body">
+        <h3>Roasted Pumpkin Soup</h3>
+        <p class="meta">Serves 1 • Veg</p>
+        <ul class="bullets">
+          <li>Creamy roasted pumpkin</li>
+          <li>Toasted seeds & herbs</li>
+          <li>Garlic bread side</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 1,000</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Mains -->
+    <article class="card mains">
+      <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Grilled Chicken Plate.jpeg"> 
+        <br><h3>Grilled Chicken Plate</h3>
+        <p class="meta">Serves 1 • Non-veg</p>
+        <ul class="bullets">
+          <li>Charcoal grilled thigh</li>
+          <li>Herb rice & salad</li>
+          <li>House peri-peri sauce</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 2,400</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card mains">
+      <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Creamy Alfredo Pasta.jpg"> 
+      <div class="card-body">
+       <h3>Creamy Alfredo Pasta</h3>
+        <p class="meta">Serves 1 • Veg</p>
+        <ul class="bullets">
+          <li>Fettuccine in white sauce</li>
+          <li>Mushrooms & parmesan</li>
+          <li>Garlic bread slice</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 1,900</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Desserts -->
+    <article class="card desserts">
+      <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Blueberry Cheesecake.jpg"> 
+      <div class="card-body">
+       <h3>Blueberry Cheesecake</h3>
+        <p class="meta">Slice • Chilled</p>
+        <ul class="bullets">
+          <li>Rich cream-cheese filling</li>
+          <li>Butter biscuit base</li>
+          <li>Fresh blueberry compote</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 1,300</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card desserts">
+      <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Hot Brownie & Ice Cream.jpeg"> 
+      <div class="card-body">
+        <h3>Hot Brownie & Ice Cream</h3>
+        <p class="meta">Plate • Veg</p>
+        <ul class="bullets">
+          <li>Warm chocolate brownie</li>
+          <li>Vanilla ice cream scoop</li>
+          <li>Chocolate sauce</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 1,150</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Beverages -->
+    <article class="card beverages">
+      <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Virgin Mojito.webp"> 
+      <div class="card-body">
+        <h3>Virgin Mojito</h3>
+        <p class="meta">Glass • Mocktail</p>
+        <ul class="bullets">
+          <li>Lime, mint & soda</li>
+          <li>Brown sugar</li>
+          <li>Crushed ice</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 900</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card beverages">
+      <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Caramel Latte.jpg"> 
+      <div class="card-body">
+       <h3>Caramel Latte</h3>
+        <p class="meta">Cup • Coffee</p>
+        <ul class="bullets">
+          <li>Espresso with milk</li>
+          <li>Caramel syrup</li>
+          <li>Foam art</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 850</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Corporate menu examples -->
+    <article class="card mains beverages">
+      <img src="C:\Users\Mavindu Karunaratne\Desktop\Restuarant Web\img\Boardroom Lunch Set.jpg"> 
+      <div class="card-body">
+       <h3>Boardroom Lunch Set</h3>
+        <p class="meta">Serves 10 • Pre-order</p>
+        <ul class="bullets">
+          <li>Grilled chicken or veg pasta</li>
+          <li>Garden salad & bread rolls</li>
+          <li>Iced tea dispenser</li>
+        </ul>
+        <div class="price-row">
+          <span class="price">LKR 12,500</span>
+        </div>
+      </div>
+    </article>
+
+  </main>
+  <script src="script.js"></script>
+</body>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#0f141b;
+  --panel:#161c24;
+  --muted:#8b9bb0;
+  --text:#e6edf3;
+  --accent:#7dd3fc;
+  --accent-2:#a78bfa;
+  --ok:#22c55e;
+  --warn:#ef4444;
+  --ring: rgba(125,211,252,0.35);
+  --card:#11161d;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --radius:16px;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+nav ul li a:hover {
+  color: #f39c12;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #f39c12;
+}
+
+.hero .btn {
+  background: #f39c12;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+form button:hover {
+  background: #e67e22;
+}
+
+html,body{background:var(--bg);color:var(--text);margin:0}
+.topbar{padding:28px 24px 6px;max-width:1200px;margin:0 auto}
+.topbar h1{margin:0 0 6px;font-size:28px}
+.subtitle{margin:0;color:var(--muted);font-size:14px}
+.pillbar{
+  max-width:1200px;margin:6px auto 18px;display:flex;align-items:center;gap:8px;
+  padding:8px 12px;background:var(--panel);border-radius:999px;box-shadow:var(--shadow);
+  position:sticky;top:8px;z-index:10;
+}
+.pill{
+  padding:8px 14px;border-radius:999px;background:#0e1319;border:1px solid #1e2937;
+  color:var(--text);cursor:pointer;font-weight:600;font-size:14px;
+}
+.pill.active{outline:2px solid var(--ring);background:linear-gradient(180deg,#0e141b,#0c1117)}
+.pipe{flex:1}
+.searchwrap{flex-basis:280px;max-width:320px}
+.searchwrap input{
+  width:100%;padding:10px 12px;border-radius:10px;border:1px solid #223042;background:#0b1117;
+  color:var(--text);outline:none;
+}
+.btn{
+  padding:8px 12px;border-radius:12px;border:1px solid #263244;background:transparent;
+  color:var(--text);cursor:pointer;font-weight:600;
+}
+.btn.add{background:linear-gradient(90deg, var(--accent), var(--accent-2));border:0;color:#0b1020}
+.btn.ghost{border-color:#334155}
+.btn.warn{border-color:transparent;background:#2a0e10;color:#ffb4b4}
+.grid{
+  max-width:1200px;margin:0 auto 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  padding:0 6px;
+}
+@media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.grid{grid-template-columns:1fr} .pillbar{flex-wrap:wrap}}
+.card{
+  background:var(--card);border:1px solid #1c2533;border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.thumb{
+  height:160px;background-size:cover;background-position:center;border-bottom:1px solid #1b2431;
+}
+.card-body{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.card h3{margin:2px 0 0;font-size:18px}
+.meta{margin:0;color:var(--muted);font-size:12px}
+ul.bullets{margin:6px 0 10px 18px;color:#cbd5e1;font-size:13px}
+.price-row{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.price{font-weight:800;letter-spacing:.25px}
+.actions{display:flex;gap:8px}
+.foot{max-width:1200px;margin:0 auto 40px;color:var(--muted);padding:0 12px}
+
+.card {
+  text-align: left;        /* centers all text and images inside */
+  padding: 15px;
+  border: 1px solid none;    /* optional border */
+  border-radius: 8px;        /* rounded corners */
+  background: none;
+}
+
+.card img {
+  display: block;            /* ensures no inline spacing */
+  margin: 0 auto;            /* centers horizontally */
+  width: 300px;               /* desired width */
+  height: 300px;              /* desired height */
+  object-fit: cover;          /* crop nicely without distortion */
+  border-radius: 6px;         /* optional rounded edges */
+}
+
+</style>
+
+<script>
+  // Filtering, search and simple add/remove interactions (frontend only)
+const pills = document.querySelectorAll('.pill');
+const grid = document.querySelector('.grid');
+const search = document.getElementById('search');
+const addBtn = document.getElementById('addItem');
+const template = document.getElementById('itemTemplate');
+
+let currentFilter = 'all';
+
+function applyFilter() {
+  const term = search.value.toLowerCase().trim();
+  document.querySelectorAll('.card').forEach(card => {
+    const matchesFilter = currentFilter === 'all' || card.classList.contains(currentFilter);
+    const text = card.innerText.toLowerCase();
+    const matchesSearch = !term || text.includes(term);
+    card.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
+  });
+}
+
+pills.forEach(p => {
+  p.addEventListener('click', () => {
+    pills.forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    currentFilter = p.dataset.filter;
+    applyFilter();
+  });
+});
+
+search.addEventListener('input', applyFilter);
+
+addBtn.addEventListener('click', () => {
+  const node = template.content.cloneNode(true);
+  const article = node.querySelector('article');
+  // default to current filter class for convenience
+  if (currentFilter !== 'all') article.classList.add(currentFilter);
+  const thumb = node.querySelector('.thumb');
+  thumb.style.backgroundImage = `url('https://picsum.photos/seed/${Date.now() % 9999}/480/320')`;
+  grid.prepend(node);
+  applyFilter();
+});
+
+// Delegate edit/delete
+grid.addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const card = e.target.closest('.card');
+  if (btn.classList.contains('warn')) {
+    card.remove();
+  } else if (btn.classList.contains('ghost')) {
+    const title = card.querySelector('h3');
+    const price = card.querySelector('.price');
+    const newTitle = prompt('Edit item name:', title.textContent);
+    if (newTitle !== null) title.textContent = newTitle.trim() || title.textContent;
+    const newPrice = prompt('Edit price (e.g., LKR 1,500):', price.textContent);
+    if (newPrice !== null) price.textContent = newPrice.trim() || price.textContent;
+  }
+});
+
+applyFilter();
+
+</script>
+</html>

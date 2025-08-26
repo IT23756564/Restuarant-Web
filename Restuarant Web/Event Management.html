@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant Event Management</title>
+  <style>
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+
+    :root{
+      --bg:#f6f7f9;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --ring:#e5e7eb;
+      --shadow:0 1px 2px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
+      --radius:14px;
+    }
+
+    html,body{ height:100%; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 28px;
+      background: var(--card);
+      border-bottom: 1px solid var(--ring);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: .2px;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .header-right input {
+      padding: 10px 12px;
+      border: 1px solid var(--ring);
+      border-radius: 10px;
+      min-width: 300px;
+      outline: none;
+    }
+
+    .header-right input:focus{ box-shadow: 0 0 0 3px rgba(99,102,241,.15); border-color:#c7d2fe; }
+
+    .new-event {
+      background: #111827;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 16px;
+      padding: 18px 28px;
+    }
+
+    .stats .card {
+      background: var(--card);
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--ring);
+    }
+
+    .stats .card p{ margin:0; color: var(--muted); font-size:13px; }
+    .stats .card h2{ margin:8px 0 0; font-size:28px; }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1.8fr .9fr;
+      gap: 20px;
+      padding: 0 28px 28px;
+      align-items: start;
+    }
+
+    .events {
+      display: grid;
+      gap: 14px;
+    }
+
+    .event-card {
+      background: var(--card);
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--ring);
+    }
+
+    .event-card h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .event-meta{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:14px; }
+
+    .tag {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid var(--ring);
+    }
+
+    .tag.corporate { background: #e8f1ff; }
+    .tag.birthday { background: #fff1f2; }
+    .tag.wedding { background: #ecfdf5; }
+
+    .sidebar { display: grid; gap: 16px; }
+
+    .card-like { background: var(--card); padding: 16px 18px; border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--ring); }
+
+    .calendar { composes: card-like; }
+    .calendar h4 { margin: 0 0 10px; }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .calendar-grid div {
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 12px;
+      background: #f3f4f6;
+      font-size: 13px;
+    }
+
+    .calendar-grid .has-event{ background:#e0e7ff; font-weight:600; }
+    .calendar-grid .today{ outline: 2px solid #111827; background: #fff; }
+
+    .upcoming { composes: card-like; }
+    .upcoming h4{ margin:0 0 8px; }
+    .upcoming ul{ list-style:none; margin:0; padding:0; }
+    .upcoming li{ padding:10px 0; border-bottom:1px dashed var(--ring); font-size:14px; }
+    .upcoming li:last-child{ border-bottom:none; }
+
+    .footer{
+      text-align:center;
+      padding: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px){
+      .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .main-content{ grid-template-columns: 1fr; }
+      .header-right input{ min-width: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>Restaurant Event Management</h1>
+      <p>Plan, track, and coordinate events in one place.</p>
+    </div>
+    <div class="header-right">
+      <input type="text" id="search" placeholder="Search events..." />
+      <button class="new-event">+ New Event</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="card">
+      <p>Total Events</p>
+      <h2 id="total-events">0</h2>
+    </div>
+    <div class="card">
+      <p>Upcoming</p>
+      <h2 id="upcoming-events">0</h2>
+    </div>
+    <div class="card">
+      <p>Guests (sum)</p>
+      <h2 id="total-guests">0</h2>
+    </div>
+    <div class="card">
+      <p>Budget (sum)</p>
+      <h2 id="total-budget">Rs.0</h2>
+    </div>
+  </section>
+
+  <main class="main-content">
+    <section class="events" id="events-list">
+      <!-- Events dynamically inserted here -->
+    </section>
+
+    <aside class="sidebar">
+      <div class="calendar">
+        <h4 id="calendar-title">Month Year</h4>
+        <div class="calendar-grid" id="calendar-grid">
+          <!-- Calendar days -->
+        </div>
+      </div>
+      <div class="upcoming">
+        <h4>Upcoming (next 14 days)</h4>
+        <ul id="upcoming-list">
+          <!-- Upcoming events dynamically inserted -->
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span>Demo UI — static front-end</span>
+  </footer>
+
+  <script>
+    const events = [
+      {
+        title: "Acme Corp Quarterly Mixer",
+        type: "corporate",
+        date: "2025-08-13",
+        time: "06:00 PM–09:00 PM",
+        guests: 85,
+        budget: 4500,
+        location: "Rooftop Terrace",
+        contact: "Sam Patel · +1 555-0198",
+        notes: "A/V check at 5pm; 2 vegetarian trays"
+      },
+      {
+        title: "Noah's 30th Birthday",
+        type: "birthday",
+        date: "2025-08-16",
+        time: "07:00 PM–11:00 PM",
+        guests: 35,
+        budget: 1500,
+        location: "Lounge B",
+        contact: "Mia Chen · +1 555-0104",
+        notes: "Custom cake at 8pm; playlist provided"
+      },
+      {
+        title: "Garden Wedding Rehearsal",
+        type: "wedding",
+        date: "2025-08-20",
+        time: "05:30 PM–08:30 PM",
+        guests: 20,
+        budget: 900,
+        location: "Garden Patio",
+        contact: "Taylor Reed · +1 555-0129",
+        notes: "Rehearsal dinner layout 2"
+      }
+    ];
+
+    // ==== Stats ====
+    const totalEventsEl = document.getElementById("total-events");
+    const totalGuestsEl = document.getElementById("total-guests");
+    const totalBudgetEl = document.getElementById("total-budget");
+    const upcomingCountEl = document.getElementById("upcoming-events");
+
+    totalEventsEl.textContent = events.length;
+    totalGuestsEl.textContent = events.reduce((s, e) => s + e.guests, 0);
+    totalBudgetEl.textContent = "$" + events.reduce((s,e)=> s+e.budget, 0).toLocaleString();
+
+    // ==== Event Cards ====
+    const eventsList = document.getElementById("events-list");
+    events
+      .sort((a,b)=> new Date(a.date) - new Date(b.date))
+      .forEach(e => eventsList.appendChild(createEventCard(e)));
+
+    function createEventCard(e){
+      const card = document.createElement("article");
+      card.className = "event-card";
+      card.innerHTML = `
+        <h3>${e.title} <span class="tag ${e.type}">${cap(e.type)}</span></h3>
+        <div class="event-meta">
+          <span>📅 ${fmtDate(e.date)} — ${e.time}</span>
+          <span>👥 ${e.guests} guests</span>
+          <span>💵 $${e.budget.toLocaleString()}</span>
+        </div>
+        <div class="event-meta" style="margin-top:8px">
+          <span>📍 ${e.location}</span>
+          <span>👤 ${e.contact}</span>
+        </div>
+        <p style="margin:10px 0 0;">Notes: ${e.notes}</p>
+      `;
+      return card;
+    }
+
+    // ==== Upcoming (next 14 days) ====
+    const today = new Date();
+    const in14 = new Date(today); in14.setDate(today.getDate()+14);
+
+    const upcomingList = document.getElementById("upcoming-list");
+    const upcoming = events.filter(e => {
+      const d = new Date(e.date);
+      return d >= startOfDay(today) && d <= endOfDay(in14);
+    });
+    upcomingCountEl.textContent = upcoming.length;
+
+    upcoming.forEach(e => {
+      const li = document.createElement("li");
+      li.textContent = `${e.title} — ${fmtDate(e.date)} (${e.guests} guests)`;
+      upcomingList.appendChild(li);
+    });
+
+    // ==== Calendar ====
+    function generateCalendar(year, month){
+      const title = document.getElementById("calendar-title");
+      const grid = document.getElementById("calendar-grid");
+      grid.innerHTML = "";
+
+      const monthName = new Date(year, month).toLocaleString("default", { month: "long" });
+      title.textContent = `${monthName} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+
+      // Weekday labels
+      const weekdays = ["S","M","T","W","T","F","S"];
+      weekdays.forEach(w => {
+        const wEl = document.createElement("div");
+        wEl.textContent = w;
+        wEl.style.fontWeight = "700";
+        wEl.style.background = "transparent";
+        grid.appendChild(wEl);
+      });
+
+      // Leading blanks need to account for weekday labels (7 cells already added)
+      for(let i=0; i<firstDay; i++){
+        const blank = document.createElement("div");
+        blank.textContent = "";
+        grid.appendChild(blank);
+      }
+
+      const eventDates = new Set(events.map(e => new Date(e.date).toDateString()));
+
+      for(let d=1; d<=daysInMonth; d++){
+        const cellDate = new Date(year, month, d);
+        const cell = document.createElement("div");
+        cell.textContent = d;
+
+        if (isSameDay(cellDate, new Date())) cell.classList.add("today");
+        if (eventDates.has(cellDate.toDateString())) cell.classList.add("has-event");
+
+        grid.appendChild(cell);
+      }
+    }
+
+    generateCalendar(2025, 7); // August 2025
+
+    // ==== Search (very simple) ====
+    document.getElementById("search").addEventListener("input", (e)=>{
+      const q = e.target.value.toLowerCase().trim();
+      eventsList.innerHTML = "";
+      events
+        .filter(ev => [ev.title, ev.location, ev.contact].join(" ").toLowerCase().includes(q))
+        .forEach(ev => eventsList.appendChild(createEventCard(ev)));
+    });
+
+    // ==== Helpers ====
+    function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+    function fmtDate(str){
+      const d = new Date(str);
+      return `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
+    }
+    function isSameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+    function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+    function endOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23,59,59,999); }
+  </script>
+</body>
+</html>
